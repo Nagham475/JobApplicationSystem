@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+
+<VBox fx:id="rootPane"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mycompany.jobapplicationsystem.Controller"
+      spacing="10"
+      style="-fx-padding: 15; -fx-background-color: #f0f4f8;">
+
+    <fx:define>
+        <ToggleGroup fx:id="maritalGroup"/>
+    </fx:define>
+
+    <!-- ===== MENU BAR ===== -->
+    <MenuBar>
+        <Menu text="File">
+            <MenuItem text="Exit" onAction="#handleExit"/>
+        </Menu>
+        <Menu text="Appearance">
+            <Menu text="Font Family">
+                <MenuItem text="Arial"        onAction="#setFontArial"/>
+                <MenuItem text="Times New Roman" onAction="#setFontTimes"/>
+                <MenuItem text="Courier New"  onAction="#setFontCourier"/>
+            </Menu>
+            <Menu text="Font Size">
+                <MenuItem text="Small (12)"   onAction="#setFontSmall"/>
+                <MenuItem text="Medium (16)"  onAction="#setFontMedium"/>
+                <MenuItem text="Large (20)"   onAction="#setFontLarge"/>
+            </Menu>
+            <Menu text="Font Style">
+                <MenuItem text="Normal"       onAction="#setFontStyleNormal"/>
+                <MenuItem text="Bold"         onAction="#setFontStyleBold"/>
+                <MenuItem text="Italic"       onAction="#setFontStyleItalic"/>
+            </Menu>
+        </Menu>
+        <Menu text="Help">
+            <MenuItem text="About" onAction="#handleAbout"/>
+        </Menu>
+    </MenuBar>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+        <VBox spacing="10" style="-fx-padding: 10;">
+
+            <!-- ===== PERSONAL INFO ===== -->
+            <TitledPane text="Personal Information" expanded="true">
+                <GridPane hgap="10" vgap="10" style="-fx-padding: 10;">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="130" prefWidth="130"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <Label text="Full Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="nameField" promptText="Enter your full name"
+                               GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="Infinity"/>
+
+                    <Label text="Address:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="addressField" promptText="Enter your address"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1" maxWidth="Infinity"/>
+
+                    <Label text="Phone:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <TextField fx:id="phoneField" promptText="e.g. 0599123456"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2" maxWidth="Infinity"/>
+
+                    <Label text="Marital Status:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <HBox GridPane.columnIndex="1" GridPane.rowIndex="3" spacing="15">
+                        <RadioButton fx:id="singleRadio"  text="Single"   toggleGroup="$maritalGroup"/>
+                        <RadioButton fx:id="marriedRadio" text="Married"  toggleGroup="$maritalGroup"/>
+                        <RadioButton fx:id="divorceRadio" text="Divorced" toggleGroup="$maritalGroup"/>
+                    </HBox>
+
+                    <Label text="Birthdate:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                    <DatePicker fx:id="birthdatePicker" promptText="Select birthdate"
+                                GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                </GridPane>
+            </TitledPane>
+
+            <!-- ===== UPLOAD IMAGE ===== -->
+            <TitledPane text="Personal Image">
+                <HBox spacing="20" style="-fx-padding: 10;" alignment="CENTER_LEFT">
+                    <Button text="Upload Image" onAction="#uploadImage"
+                            style="-fx-background-color: #4a90d9; -fx-text-fill: white; -fx-padding: 8 16;"/>
+                    <ImageView fx:id="imageView" fitWidth="150" fitHeight="150" preserveRatio="true"
+                               style="-fx-border-color: #cccccc; -fx-border-width: 1;"/>
+                </HBox>
+            </TitledPane>
+
+            <!-- ===== SKILLS ===== -->
+            <TitledPane text="Skills">
+                <HBox spacing="10" style="-fx-padding: 10;" alignment="CENTER">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Available Skills" style="-fx-font-weight: bold;"/>
+                        <ListView fx:id="availableSkillsList" prefHeight="160"/>
+                    </VBox>
+
+                    <VBox spacing="10" alignment="CENTER">
+                        <Button text="→" prefWidth="45" onAction="#moveSkillRight"
+                                style="-fx-font-size: 16; -fx-background-color: #4a90d9; -fx-text-fill: white;"/>
+                        <Button text="←" prefWidth="45" onAction="#moveSkillLeft"
+                                style="-fx-font-size: 16; -fx-background-color: #e05c5c; -fx-text-fill: white;"/>
+                    </VBox>
+
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Selected Skills" style="-fx-font-weight: bold;"/>
+                        <ListView fx:id="selectedSkillsList" prefHeight="160"/>
+                    </VBox>
+                </HBox>
+            </TitledPane>
+
+            <!-- ===== COVER LETTER ===== -->
+            <TitledPane text="Cover Letter">
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Button text="Upload Cover Letter" onAction="#uploadCoverLetter"
+                                style="-fx-background-color: #4a90d9; -fx-text-fill: white; -fx-padding: 8 16;"/>
+                        <Label text="Font Size:"/>
+                        <Slider fx:id="fontSizeSlider" min="10" max="30" value="14" prefWidth="180"
+                                showTickLabels="true" showTickMarks="true" majorTickUnit="10"/>
+                        <Label text="Background:"/>
+                        <ColorPicker fx:id="colorPicker"/>
+                    </HBox>
+                    <TextArea fx:id="coverLetterArea" prefRowCount="8" wrapText="true"
+                              promptText="Cover letter will appear here after uploading..."/>
+                </VBox>
+            </TitledPane>
+
+            <!-- ===== SAVE BUTTON ===== -->
+            <HBox alignment="CENTER" style="-fx-padding: 10;">
+                <Button text="💾  Save Application" onAction="#saveApplication"
+                        style="-fx-font-size: 15; -fx-font-weight: bold; -fx-padding: 12 40;
+                               -fx-background-color: #27ae60; -fx-text-fill: white;
+                               -fx-background-radius: 8;"/>
+            </HBox>
+
+        </VBox>
+    </ScrollPane>
+
+</VBox>
